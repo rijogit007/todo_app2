@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Todo App</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 40%;
+            margin: 50px auto;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            gap: 10px;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px 15px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #218838;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+
+        li {
+            background: #f9f9f9;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .actions a {
+            text-decoration: none;
+            margin-left: 10px;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .edit {
+            background: #007bff;
+            color: white;
+        }
+
+        .delete {
+            background: #dc3545;
+            color: white;
+        }
+
+        .edit:hover {
+            background: #0069d9;
+        }
+
+        .delete:hover {
+            background: #c82333;
+        }
+
+        .empty {
+            text-align: center;
+            color: gray;
+        }
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>📝 Todo App</h2>
+
+    <!-- ADD TASK -->
+    <form method="POST" action="/add/">
+        {% csrf_token %}
+        <input type="text" name="title" placeholder="Enter task...">
+        <button type="submit">Add</button>
+    </form>
+
+    <!-- TASK LIST -->
+    <ul>
+        {% for t in task %}
+            <li>
+                <span>{{ t.title }}</span>
+
+                <div class="actions">
+                    <a class="edit" href="/edit/{{ t.id }}/">Edit</a>
+                    <a class="delete" href="/delete/{{ t.id }}/">Delete</a>
+                </div>
+            </li>
+        {% empty %}
+            <li class="empty">No tasks yet 😴</li>
+        {% endfor %}
+    </ul>
+
+</div>
+
+</body>
+</html>
